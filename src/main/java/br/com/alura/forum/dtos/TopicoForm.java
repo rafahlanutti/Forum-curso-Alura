@@ -3,10 +3,15 @@ package br.com.alura.forum.dtos;
 import br.com.alura.forum.modelo.Topico;
 import br.com.alura.forum.repository.CursoRepository;
 
+import javax.validation.constraints.NotBlank;
+
 public class TopicoForm {
 
+    @NotBlank
     private String titulo;
+    @NotBlank
     private String mensagem;
+    @NotBlank
     private String nomeCurso;
 
     public TopicoForm() {

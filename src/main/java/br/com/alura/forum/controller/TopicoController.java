@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -36,7 +37,7 @@ public class TopicoController {
     }
 
     @PostMapping
-    public ResponseEntity<TopicoDto> cadastrar(@RequestBody TopicoForm obj, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<TopicoDto> cadastrar(@Valid @RequestBody TopicoForm obj, UriComponentsBuilder uriBuilder) {
         var topico = TopicoForm.TopicoDomainConverter.converter(cursoRepository, obj);
         topicoRepository.save(topico);
         var uri = uriBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
