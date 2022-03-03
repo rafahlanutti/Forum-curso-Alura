@@ -1,5 +1,6 @@
 package br.com.alura.forum.controller;
 
+import br.com.alura.forum.dtos.AtualizacaoTopicoForm;
 import br.com.alura.forum.dtos.DetalheTopicoDto;
 import br.com.alura.forum.dtos.TopicoDto;
 import br.com.alura.forum.dtos.TopicoForm;
@@ -12,7 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.beans.Transient;
 import java.util.List;
 
 @RestController
@@ -50,5 +53,20 @@ public class TopicoController {
         var finded = topicoRepository.findById(id).get();
         var dto = new DetalheTopicoDto(finded);
         return ResponseEntity.ok(dto);
+    }
+
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity<TopicoDto> atualizar(@PathVariable("id") Long id, @Valid @RequestBody AtualizacaoTopicoForm obj) {
+        var topico = obj.atualizar(id, topicoRepository);
+        topicoRepository.save(topico);
+        return ResponseEntity.ok(new TopicoDto(topico));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable("id") Long id) {
+        var topico = this.topicoRepository.findById(id).get();
+        this.topicoRepository.delete(topico);
+        return ResponseEntity.ok().build();
     }
 }
