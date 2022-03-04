@@ -9,13 +9,16 @@ import br.com.alura.forum.repository.CursoRepository;
 import br.com.alura.forum.repository.TopicoRepository;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import java.beans.Transient;
 import java.util.List;
 
 @RestController
@@ -29,13 +32,13 @@ public class TopicoController {
     CursoRepository cursoRepository;
 
     @GetMapping
-    public List<TopicoDto> lista(@RequestParam(required = false) String nomeCurso) {
+    public Page<TopicoDto> lista(@RequestParam(required = false) String nomeCurso, Pageable paginacao ) {
 
-        List<Topico> topicos;
+        Page<Topico> topicos;
         if (Strings.isEmpty(nomeCurso)) {
-            topicos = topicoRepository.findAll();
+            topicos = topicoRepository.findAll(paginacao);
         } else {
-            topicos = topicoRepository.carregarPorNomeDoCurso(nomeCurso);
+            topicos = topicoRepository.carregarPorNomeDoCurso(nomeCurso, paginacao);
         }
         return TopicoDto.TopicoDtoConverter.converter(topicos);
     }
