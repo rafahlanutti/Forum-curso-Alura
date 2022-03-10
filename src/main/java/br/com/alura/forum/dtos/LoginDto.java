@@ -2,12 +2,12 @@ package br.com.alura.forum.dtos;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
-public class LoginDTO {
+public class LoginDto {
 
     private String email;
     private String senha;
 
-    public LoginDTO() {
+    public LoginDto() {
     }
 
     public String getEmail() {
