@@ -1,7 +1,6 @@
 package br.com.alura.forum.dtos;
 
 import br.com.alura.forum.modelo.Topico;
-import br.com.alura.forum.repository.CursoRepository;
 import br.com.alura.forum.repository.TopicoRepository;
 
 import javax.validation.constraints.NotBlank;
